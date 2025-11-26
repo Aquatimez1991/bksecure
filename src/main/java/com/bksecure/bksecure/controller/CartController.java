@@ -5,7 +5,7 @@ import com.bksecure.bksecure.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import com.bksecure.bksecure.domain.dto.CartItemRequest; // <- Añade este import
 import java.util.List;
 import java.util.Map;
 
@@ -31,6 +31,17 @@ public class CartController {
     @DeleteMapping("/clear/{userId}")
     public ResponseEntity<?> clear(@PathVariable Long userId) {
         cartService.clearCart(userId);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/update")
+    public CartItem update(@RequestBody CartItemRequest request) {
+        return cartService.updateQuantity(request.getUserId(), request.getServiceId(), request.getQuantity());
+    }
+
+    @DeleteMapping("/remove")
+    public ResponseEntity<?> remove(@RequestBody CartItemRequest request) {
+        cartService.removeFromCart(request.getUserId(), request.getServiceId());
         return ResponseEntity.ok().build();
     }
 }
