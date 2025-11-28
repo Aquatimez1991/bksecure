@@ -1,5 +1,6 @@
 package com.bksecure.bksecure.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
@@ -21,4 +22,9 @@ public class Order {
     private Double totalSoles;
     private String status = "PENDING";
     private LocalDateTime createdAt = LocalDateTime.now();
+
+    // NUEVO: Relación inversa para obtener los items de la orden
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    @JsonManagedReference // Evita bucle infinito JSON
+    private List<OrderItem> items;
 }

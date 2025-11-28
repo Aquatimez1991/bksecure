@@ -1,5 +1,6 @@
 package com.bksecure.bksecure.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -14,11 +15,12 @@ public class OrderItem {
 
     @ManyToOne
     @JoinColumn(name = "order_id")
+    @JsonBackReference // Evita bucle infinito JSON
     private Order order;
 
     @ManyToOne
     @JoinColumn(name = "service_id")
-    private ServiceEntity service;
+    private ServiceEntity service; // Asegúrate que se llame ServiceEntity en tu proyecto
 
     private Double priceSoles;
     private Integer quantity;

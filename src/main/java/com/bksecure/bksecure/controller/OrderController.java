@@ -3,10 +3,10 @@ package com.bksecure.bksecure.controller;
 import com.bksecure.bksecure.domain.model.Order;
 import com.bksecure.bksecure.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/orders")
@@ -14,9 +14,21 @@ public class OrderController {
     @Autowired
     OrderService orderService;
 
+    // Crear orden (Checkout)
     @PostMapping("/checkout/{userId}")
-    public Order checkout(@PathVariable Long userId) {
-        return orderService.checkout(userId);
+    public ResponseEntity<Order> checkout(@PathVariable Long userId) {
+        try {
+            Order newOrder = orderService.checkout(userId);
+            return ResponseEntity.ok(newOrder);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    // NUEVO: Obtener historial
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<Order>> getOrdersByUser(@PathVariable Long userId) {
+        List<Order> orders = orderService.getOrdersByUserId(userId);
+        return ResponseEntity.ok(orders);
     }
 }
-
