@@ -31,4 +31,16 @@ public class OrderController {
         List<Order> orders = orderService.getOrdersByUserId(userId);
         return ResponseEntity.ok(orders);
     }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<Order>> getAllOrders() {
+        return ResponseEntity.ok(orderService.getAllOrders());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Order> getOrderById(@PathVariable Long id) {
+        return orderService.getOrderById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
 }

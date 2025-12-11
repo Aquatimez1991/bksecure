@@ -9,10 +9,12 @@ import com.bksecure.bksecure.repository.OrderRepository;
 import com.bksecure.bksecure.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class OrderService {
@@ -69,5 +71,13 @@ public class OrderService {
     // NUEVO MÉTODO
     public List<Order> getOrdersByUserId(Long userId) {
         return orderRepo.findByUserIdOrderByCreatedAtDesc(userId);
+    }
+
+    public List<Order> getAllOrders() {
+        return orderRepo.findAll(Sort.by(Sort.Direction.DESC, "createdAt"));
+    }
+
+    public Optional<Order> getOrderById(Long id) {
+        return orderRepo.findById(id);
     }
 }
