@@ -28,7 +28,7 @@ public class MessageService {
     @Autowired
     private OrderRepository orderRepository;
 
-    private final String N8N_URL = "http://localhost:5678/webhook-test/9e43291a-54e0-4b4c-89b8-d51754d8c69e";
+    private final String N8N_URL = "http://n8n:5678/webhook/9e43291a-54e0-4b4c-89b8-d51754d8c69e";
 
     public Message triggerHelpBot(HelpTriggerRequest request) {
         User user = userRepository.findById(request.getUserId())
